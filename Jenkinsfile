@@ -16,7 +16,6 @@ def GIT_URL_ANSIBLE_ROLE = "https://github.com/bikoizle/${ANSIBLE_ROLE_NAME}.git
 
 def VMBUILD_PBK_DIR = "vmbuild";
 def GETVMINFO_PBK_DIR = "getvminfo";
-def ANSIBLE_ROLE_DIR = "roles/$ANSIBLE_ROLE_NAME";
 
 def VMBUILD_PBK = "vmbuild.yml";
 def GETVMINFO_PBK = "getvminfo.yml";
@@ -35,6 +34,7 @@ def OS_VM_INFO;
 def OS_VM_IP_ADDRESS;
 
 def ANSIBLE_WORKSPACE_DIR = "ansible_workspace";
+def ANSIBLE_ROLE_DIR = "$ANSIBLE_WORKSPACE_DIR/roles/$ANSIBLE_ROLE_NAME";
 def ANSIBLE_USER = "root";
 
 node {
@@ -133,15 +133,15 @@ node {
 
           OS_VM_IP_ADDRESS = OS_VM_INFO['accessIPv4'][0]
 
-          if (fileExists("$ANSIBLE_WORKSPACE_DIR/roles/${env.JOB_BASE_NAME}/.requirements.yml")) {
+          if (fileExists("$ANSIBLE_WORKSPACE_DIR/roles/$ANSIBLE_ROLE_NAME/.requirements.yml")) {
 
             echo "Downloading role dependencies with Ansible Galaxy"
 
-            sh "ansible-galaxy install -r $ANSIBLE_WORKSPACE_DIR/roles/${env.JOB_BASE_NAME}/.requirements.yml -p $ANSIBLE_WORKSPACE_DIR/roles -f"
+            sh "ansible-galaxy install -r $ANSIBLE_WORKSPACE_DIR/roles/$ANSIBLE_ROLE_NAME/.requirements.yml -p $ANSIBLE_WORKSPACE_DIR/roles -f"
 
           }
 
-          sh "cp $ANSIBLE_WORKSPACE_DIR/roles/${env.JOB_BASE_NAME}/tests/* $ANSIBLE_WORKSPACE_DIR"
+          sh "cp $ANSIBLE_WORKSPACE_DIR/roles/$ANSIBLE_ROLE_NAME/tests/* $ANSIBLE_WORKSPACE_DIR"
           sh "sed -i 's|localhost|$OS_VM_IP_ADDRESS|g' $ANSIBLE_WORKSPACE_DIR/inventory $ANSIBLE_WORKSPACE_DIR/test.yml"
 
           echo "Removing old VM IP address ssh fingerprint"
