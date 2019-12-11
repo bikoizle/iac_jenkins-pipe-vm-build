@@ -7,12 +7,12 @@ def GIT_VMBUILD_PBK_TAG = "0.1.1";
 def GIT_GETVMINFO_PBK_TAG = "0.1.3";
 def GIT_ANSIBLE_ROLE_TAG = "0.2.0";
 
-def ANSIBLE_ROLE_NAME = "iac_ansible-role-server"
+def ANSIBLE_ROLE_NAME = "iac_ansible-role-server";
 
 def GIT_URL_VMBUILD = "https://github.com/bikoizle/iac_ansible-playbook-vmbuild.git";
 def GIT_URL_VMDELETE = "https://github.com/bikoizle/iac_ansible-playbook-vmdelete.git";
 def GIT_URL_GETVMINFO = "https://github.com/bikoizle/iac_ansible-playbook-getvminfo.git";
-def GIT_URL_ANSIBLE_ROLE = "https://github.com/bikoizle/$ANSIBLE_ROLE_NAME.git";
+def GIT_URL_ANSIBLE_ROLE = "https://github.com/bikoizle/${ANSIBLE_ROLE_NAME}.git";
 
 def VMBUILD_PBK_DIR = "vmbuild";
 def GETVMINFO_PBK_DIR = "getvminfo";
@@ -127,8 +127,8 @@ node {
 
         }
 
-        stage("Prepare Ansible workspace")
-        {
+        stage("Prepare Ansible workspace"){
+
           echo "Preparing Ansible workspace"
 
           OS_VM_IP_ADDRESS = OS_VM_INFO['accessIPv4'][0]
