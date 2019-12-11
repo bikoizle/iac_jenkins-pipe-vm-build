@@ -5,6 +5,7 @@ def GIT_CREDS_ID = "70c6a9da-bbb3-45b8-8565-d34f227696d9";
 
 def GIT_VMBUILD_PBK_TAG = "0.1.1";
 def GIT_GETVMINFO_PBK_TAG = "0.1.3";
+def GIT_ANSIBLE_ROLE_TAG = "0.2.0";
 
 def GIT_URL_VMBUILD = "https://github.com/bikoizle/iac_ansible-playbook-vmbuild.git";
 def GIT_URL_VMDELETE = "https://github.com/bikoizle/iac_ansible-playbook-vmdelete.git";
@@ -63,10 +64,10 @@ node {
          echo "Fetching Ansible role"
 
          checkout([$class: 'GitSCM',
-                branches: [[name: "refs/tags/$GIT_GETVMINFO_PBK_TAG"]],
+                branches: [[name: "refs/tags/$GIT_ANSIBLE_ROLE_TAG"]],
                 userRemoteConfigs: [[
                     credentialsId: "$GIT_CREDS_ID",
-                    url: "$GIT_URL_GETVMINFO"]],
+                    url: "$GIT_URL_ANSIBLE_ROLE"]],
                 extensions: [[$class: "RelativeTargetDirectory", relativeTargetDir: "$ANSIBLE_ROLE_DIR"]],
             ])
 
