@@ -7,14 +7,16 @@ def GIT_VMBUILD_PBK_TAG = "0.1.1";
 def GIT_GETVMINFO_PBK_TAG = "0.1.3";
 def GIT_ANSIBLE_ROLE_TAG = "0.2.0";
 
+def ANSIBLE_ROLE_NAME = "iac_ansible-role-server"
+
 def GIT_URL_VMBUILD = "https://github.com/bikoizle/iac_ansible-playbook-vmbuild.git";
 def GIT_URL_VMDELETE = "https://github.com/bikoizle/iac_ansible-playbook-vmdelete.git";
 def GIT_URL_GETVMINFO = "https://github.com/bikoizle/iac_ansible-playbook-getvminfo.git";
-def GIT_URL_ANSIBLE_ROLE = "https://github.com/bikoizle/iac_ansible-role-server.git";
+def GIT_URL_ANSIBLE_ROLE = "https://github.com/bikoizle/$ANSIBLE_ROLE_NAME.git";
 
 def VMBUILD_PBK_DIR = "vmbuild";
 def GETVMINFO_PBK_DIR = "getvminfo";
-def ANSIBLE_ROLE_DIR = ".";
+def ANSIBLE_ROLE_DIR = "roles/$ANSIBLE_ROLE_NAME";
 
 def VMBUILD_PBK = "vmbuild.yml";
 def GETVMINFO_PBK = "getvminfo.yml";
@@ -130,9 +132,6 @@ node {
           echo "Preparing Ansible workspace"
 
           OS_VM_IP_ADDRESS = OS_VM_INFO['accessIPv4'][0]
-
-          sh "mkdir -p $ANSIBLE_WORKSPACE_DIR/roles"
-          sh "cp -r ${env.WORKSPACE}@script $ANSIBLE_WORKSPACE_DIR/roles/${env.JOB_BASE_NAME}"
 
           if (fileExists("$ANSIBLE_WORKSPACE_DIR/roles/${env.JOB_BASE_NAME}/.requirements.yml")) {
 
