@@ -12,7 +12,7 @@ def ANSIBLE_ROLE_NAME = "iac_ansible-role-server";
 def GIT_URL_VMBUILD = "https://github.com/bikoizle/iac_ansible-playbook-vmbuild.git";
 def GIT_URL_VMDELETE = "https://github.com/bikoizle/iac_ansible-playbook-vmdelete.git";
 def GIT_URL_GETVMINFO = "https://github.com/bikoizle/iac_ansible-playbook-getvminfo.git";
-def GIT_URL_ANSIBLE_ROLE = "https://github.com/bikoizle/${ANSIBLE_ROLE_NAME}.git";
+def GIT_URL_ANSIBLE_ROLE;
 
 def VMBUILD_PBK_DIR = "vmbuild";
 def GETVMINFO_PBK_DIR = "getvminfo";
@@ -34,7 +34,7 @@ def OS_VM_INFO;
 def OS_VM_IP_ADDRESS;
 
 def ANSIBLE_WORKSPACE_DIR = "ansible_workspace";
-def ANSIBLE_ROLE_DIR = "$ANSIBLE_WORKSPACE_DIR/roles/$ANSIBLE_ROLE_NAME";
+def ANSIBLE_ROLE_DIR;
 def ANSIBLE_USER = "root";
 
 node {
@@ -58,6 +58,8 @@ Each role tag can be obtained from its repository in https://github.com/bikoizle
          ANSIBLE_ROLE_NAME = "${params.ANSIBLE_ROLE_NAME}"
          GIT_ANSIBLE_ROLE_TAG = "${params.GIT_ANSIBLE_ROLE_TAG}"
          OS_IMAGE_NAME = "${params.OS_IMAGE_NAME}"
+         GIT_URL_ANSIBLE_ROLE = "https://github.com/bikoizle/${ANSIBLE_ROLE_NAME}.git";
+         ANSIBLE_ROLE_DIR = "$ANSIBLE_WORKSPACE_DIR/roles/$ANSIBLE_ROLE_NAME";
 
          echo "Fetching vmbuild playbook"
     
