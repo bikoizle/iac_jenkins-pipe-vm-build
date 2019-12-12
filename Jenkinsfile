@@ -45,7 +45,8 @@ node {
           [choice(choices: ['iac_ansible-role-server', 'iac_ansible-role-apache'], description: 'Role to apply when creating the virtual machine.', name: 'ANSIBLE_ROLE_NAME'), 
            string(defaultValue: "$GIT_ANSIBLE_ROLE_TAG", description: '''MANDATORY: Git tag with the version of the role to download.
 Each role tag can be obtained from its repository in https://github.com/bikoizle/''', name: 'GIT_ANSIBLE_ROLE_TAG', trim: false),
-           string(defaultValue: "$OS_IMAGE_NAME", description: 'Image name to use when building the virtual machine.', name: 'OS_IMAGE_NAME', trim: false)
+           string(defaultValue: "$OS_IMAGE_NAME", description: 'Image name to use when building the virtual machine.', name: 'OS_IMAGE_NAME', trim: false),
+           string(defaultValue: "$OS_VM_NAME", description: 'Virtual machine name.', name: 'OS_VM_NAME', trim: false)
           ]
         )
       ]
@@ -58,8 +59,9 @@ Each role tag can be obtained from its repository in https://github.com/bikoizle
          ANSIBLE_ROLE_NAME = "${params.ANSIBLE_ROLE_NAME}"
          GIT_ANSIBLE_ROLE_TAG = "${params.GIT_ANSIBLE_ROLE_TAG}"
          OS_IMAGE_NAME = "${params.OS_IMAGE_NAME}"
-         GIT_URL_ANSIBLE_ROLE = "https://github.com/bikoizle/${ANSIBLE_ROLE_NAME}.git";
-         ANSIBLE_ROLE_DIR = "$ANSIBLE_WORKSPACE_DIR/roles/$ANSIBLE_ROLE_NAME";
+         GIT_URL_ANSIBLE_ROLE = "https://github.com/bikoizle/${ANSIBLE_ROLE_NAME}.git"
+         ANSIBLE_ROLE_DIR = "$ANSIBLE_WORKSPACE_DIR/roles/$ANSIBLE_ROLE_NAME"
+         OS_VM_NAME = "${params.OS_VM_NAME}"
 
          echo "Fetching vmbuild playbook"
     
