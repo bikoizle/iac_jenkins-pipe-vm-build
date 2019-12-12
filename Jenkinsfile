@@ -45,7 +45,7 @@ node {
           [choice(choices: ['iac_ansible-role-server', 'iac_ansible-role-apache'], description: 'Role to apply when creating the virtual machine.', name: 'ANSIBLE_ROLE_NAME'), 
            string(defaultValue: "$GIT_ANSIBLE_ROLE_TAG", description: '''MANDATORY: Git tag with the version of the role to download.
 Each role tag can be obtained from its repository in https://github.com/bikoizle/''', name: 'GIT_ANSIBLE_ROLE_TAG', trim: false),
-           string(defaultValue: "$OS_IMAGE_NAME", description: 'Image name to use when building the virtual machine.', name: 'OS_IMAGE_NAME', trim: false)])])
+           string(defaultValue: "$OS_IMAGE_NAME", description: 'Image name to use when building the virtual machine.', name: 'OS_IMAGE_NAME', trim: false)
           ]
         )
       ]
