@@ -3,7 +3,7 @@ def DATE = Calendar.getInstance().getTime().format('YYYYMMdd-hhmmss',TimeZone.ge
 
 def GIT_CREDS_ID = "70c6a9da-bbb3-45b8-8565-d34f227696d9";
 
-def GIT_VMBUILD_PBK_TAG = "0.2.0";
+def GIT_VMBUILD_PBK_TAG = "0.2.1";
 def GIT_GETVMINFO_PBK_TAG = "0.1.3";
 def GIT_ANSIBLE_ROLE_TAG = "0.2.0";
 
