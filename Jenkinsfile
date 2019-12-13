@@ -5,7 +5,7 @@ def GIT_CREDS_ID = "70c6a9da-bbb3-45b8-8565-d34f227696d9";
 
 def GIT_VMBUILD_PBK_TAG = "0.2.1";
 def GIT_GETVMINFO_PBK_TAG = "0.1.3";
-def GIT_ANSIBLE_ROLE_TAG = "0.2.0";
+def GIT_ANSIBLE_ROLE_TAG = "0.2.1";
 
 def ANSIBLE_ROLE_NAME = "iac_ansible-role-server";
 
@@ -177,6 +177,19 @@ Each role tag can be obtained from its repository in https://github.com/bikoizle
           echo "Removing old VM IP address ssh fingerprint"
 
           sh "ssh-keygen -R $OS_VM_IP_ADDRESS"
+
+        }
+
+        stage("Wait for VM"){
+
+          echo "Waiting for VM to be ready"
+
+          timeout(time: 1, unit: 'HOURS'){
+             waitUntil{
+                status = sh(returnStatus: true, script: "ping -c 9 $OS_VM_IP_ADDRESS")
+                return status == 0
+             }
+         }
 
         }
 
