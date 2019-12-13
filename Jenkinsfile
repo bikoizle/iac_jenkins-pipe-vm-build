@@ -3,7 +3,7 @@ def DATE = Calendar.getInstance().getTime().format('YYYYMMdd-hhmmss',TimeZone.ge
 
 def GIT_CREDS_ID = "70c6a9da-bbb3-45b8-8565-d34f227696d9";
 
-def GIT_VMBUILD_PBK_TAG = "0.1.1";
+def GIT_VMBUILD_PBK_TAG = "0.2.0";
 def GIT_GETVMINFO_PBK_TAG = "0.1.3";
 def GIT_ANSIBLE_ROLE_TAG = "0.2.0";
 
@@ -28,6 +28,7 @@ def OS_IMAGE_NAME = "CustomOS-20191207-091815";
 def OS_VM_NAME = "customos" + "-" + "$DATE";
 def OS_VM_BUILD_TIMEOUT = "200";
 def OS_VM_FLAVOUR = "lab.small";
+def OS_VM_VOL_SIZE = "20";
 def OS_VM_NET = "private_network";
 
 def OS_VM_INFO;
@@ -42,11 +43,17 @@ node {
     properties(
       [
         parameters(
-          [choice(choices: ['iac_ansible-role-server', 'iac_ansible-role-apache'], description: 'Role to apply when creating the virtual machine.', name: 'ANSIBLE_ROLE_NAME'), 
+          [
+           choice(choices: ['iac_ansible-role-server', 'iac_ansible-role-apache'], description: 'Role to apply when creating the virtual machine.', name: 'ANSIBLE_ROLE_NAME'), 
            string(defaultValue: "$GIT_ANSIBLE_ROLE_TAG", description: '''MANDATORY: Git tag with the version of the role to download.
 Each role tag can be obtained from its repository in https://github.com/bikoizle/''', name: 'GIT_ANSIBLE_ROLE_TAG', trim: false),
            string(defaultValue: "$OS_IMAGE_NAME", description: 'Image name to use when building the virtual machine.', name: 'OS_IMAGE_NAME', trim: false),
-           string(defaultValue: "$OS_VM_NAME", description: 'Virtual machine name.', name: 'OS_VM_NAME', trim: false)
+           string(defaultValue: "$OS_VM_NAME", description: 'Virtual machine name.', name: 'OS_VM_NAME', trim: false),
+           string(defaultValue: "$OS_VM_VOL_SIZE", description: 'Virtual machine volume size in GB.', name: 'OS_VM_VOL_SIZE', trim: false),
+           choice(choices: ['lab.small', 'lab.medium', 'lab.large'], description: '''Virtual machine configuration flavour:
+ - lab.small: 1 vCPU + 2 GB RAM
+ - lab.medium: 2 vCPU + 4 GB RAM
+ - lab.large: 4 vCPU + 8 GB RAM''', name: 'OS_VM_FLAVOUR')
           ]
         )
       ]
@@ -62,6 +69,8 @@ Each role tag can be obtained from its repository in https://github.com/bikoizle
          GIT_URL_ANSIBLE_ROLE = "https://github.com/bikoizle/${ANSIBLE_ROLE_NAME}.git"
          ANSIBLE_ROLE_DIR = "$ANSIBLE_WORKSPACE_DIR/roles/$ANSIBLE_ROLE_NAME"
          OS_VM_NAME = "${params.OS_VM_NAME}"
+         OS_VM_VOL_SIZE = "${params.OS_VM_VOL_SIZE}"
+         OS_VM_FLAVOUR = "${params.OS_VM_FLAVOUR}"
 
          echo "Fetching vmbuild playbook"
     
@@ -115,6 +124,7 @@ Each role tag can be obtained from its repository in https://github.com/bikoizle
                    vm_name: "$OS_VM_NAME",
                    timeout: "$OS_VM_BUILD_TIMEOUT",
                    vm_flavour: "$OS_VM_FLAVOUR",
+                   vm_vol_size: "$OS_VM_VOL_SIZE",
                    vm_net: "$OS_VM_NET"
                ])
           }
