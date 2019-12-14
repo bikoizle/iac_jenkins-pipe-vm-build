@@ -3,7 +3,7 @@ def DATE = Calendar.getInstance().getTime().format('YYYYMMdd-hhmmss',TimeZone.ge
 
 def GIT_CREDS_ID = "70c6a9da-bbb3-45b8-8565-d34f227696d9";
 
-def GIT_VMBUILD_PBK_TAG = "0.2.1";
+def GIT_VMBUILD_PBK_TAG = "0.2.2";
 def GIT_GETVMINFO_PBK_TAG = "0.1.3";
 def GIT_ANSIBLE_ROLE_TAG = "0.2.1";
 
@@ -24,7 +24,7 @@ def OS_URL = "http://bender.lan:5000/v3";
 def OS_PROJECT = "admin";
 def OS_PROJECT_DOMAIN = "Default";
 def OS_USER_DOMAIN = "Default";
-def OS_IMAGE_NAME = "CustomOS-20191207-091815";
+def OS_IMAGE_NAME = "CustomOS-20191214-030039";
 def OS_VM_NAME = "customos" + "-" + "$DATE";
 def OS_VM_BUILD_TIMEOUT = "200";
 def OS_VM_FLAVOUR = "lab.small";
@@ -44,7 +44,7 @@ node {
       [
         parameters(
           [
-           choice(choices: ['iac_ansible-role-server', 'iac_ansible-role-apache'], description: 'Role to apply when creating the virtual machine.', name: 'ANSIBLE_ROLE_NAME'), 
+           choice(choices: ['iac_ansible-role-server', 'iac_ansible-role-apache', 'iac_ansible-role-mariadb'], description: 'Role to apply when creating the virtual machine.', name: 'ANSIBLE_ROLE_NAME'), 
            string(defaultValue: "$GIT_ANSIBLE_ROLE_TAG", description: '''MANDATORY: Git tag with the version of the role to download.
 Each role tag can be obtained from its repository in https://github.com/bikoizle/''', name: 'GIT_ANSIBLE_ROLE_TAG', trim: false),
            string(defaultValue: "$OS_IMAGE_NAME", description: 'Image name to use when building the virtual machine.', name: 'OS_IMAGE_NAME', trim: false),
